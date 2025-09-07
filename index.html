@@ -157,7 +157,7 @@
     showPage(currentPageIndex);
 
     overlay.addEventListener('click', () => {
-      audio.volume = 0.1; // Quiet background
+      audio.volume = 1; // Quiet background
       audio.play().catch(() => {
         console.warn('Autoplay blocked; audio will start on user interaction.');
       });
@@ -166,3 +166,4 @@
   </script>
 </body>
 </html>
+
