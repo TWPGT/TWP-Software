@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>TWP Software Company</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -18,12 +16,7 @@
       user-select: none;
       padding: 20px;
     }
-
-    #app {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
+    #app { max-width: 900px; margin: 0 auto; }
     header {
       display: flex;
       align-items: center;
@@ -32,20 +25,13 @@
       gap: 10px;
       flex-wrap: wrap;
     }
-
     header h1 {
       margin: 0;
       font-size: 1.8rem;
       white-space: nowrap;
       flex-grow: 1;
     }
-
-    #nav-arrows {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-    }
-
+    #nav-arrows { display: flex; gap: 15px; align-items: center; }
     button.arrow-btn {
       background: #1e1e1e;
       border: none;
@@ -57,22 +43,8 @@
       box-shadow: 0 0 10px #fff;
       transition: background-color 0.3s ease;
     }
-
-    button.arrow-btn:hover {
-      background-color: #fff;
-      color: #121212;
-      box-shadow: 0 0 20px #fff;
-    }
-
-    button.arrow-btn:active {
-      transform: scale(0.9);
-    }
-
-    button.arrow-btn:focus {
-      outline: 3px solid #fff;
-      outline-offset: 2px;
-    }
-
+    button.arrow-btn:hover { background-color: #fff; color: #121212; box-shadow: 0 0 20px #fff; }
+    button.arrow-btn:focus { outline: 3px solid #fff; outline-offset: 2px; }
     .page {
       display: none;
       flex-direction: column;
@@ -80,42 +52,39 @@
       opacity: 0;
       transition: opacity 0.6s ease;
     }
-
-    .page.active {
-      display: flex;
-      opacity: 1;
-    }
-
-    h1, h2 {
-      margin: 0;
-    }
-
-    p {
-      line-height: 1.6;
-      font-size: 1.1rem;
-    }
-
+    .page.active { display: flex; opacity: 1; }
+    h1, h2 { margin: 0; }
+    p { line-height: 1.6; font-size: 1.1rem; }
     @media (max-width: 600px) {
-      header {
-        justify-content: center;
-      }
-
+      header { justify-content: center; }
       header h1 {
         font-size: 1.4rem;
         text-align: center;
         flex-grow: unset;
       }
-
       #nav-arrows {
         width: 100%;
         justify-content: center;
         gap: 40px;
         margin-top: 10px;
       }
-
-      p {
-        font-size: 1rem;
-      }
+      p { font-size: 1rem; }
+    }
+    /* User prompt for enabling sound */
+    #enableSoundOverlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(18, 18, 18, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #eee;
+      font-size: 1.3rem;
+      text-align: center;
+      padding: 20px;
+      cursor: pointer;
+      z-index: 9999;
+      user-select: none;
     }
   </style>
 </head>
@@ -135,21 +104,18 @@
       <h1>Welcome to TWP Software</h1>
       <p>Your source for innovative software solutions, including Blooket hacks and Gorilla Tag mods.</p>
     </section>
-
     <section id="about" class="page">
       <h1>About TWP Software Company</h1>
       <p>TWP Software Company is a cutting-edge software development firm specializing in innovative solutions for gaming and educational platforms.</p>
       <p>Founded with the mission to create fun, accessible, and effective tools, we are passionate about crafting high-quality hacks and mods that enhance user experience.</p>
       <p>Our team combines creativity and technical expertise to deliver reliable and enjoyable software products.</p>
     </section>
-
     <section id="blooket" class="page">
       <h1>Blooket Hacks</h1>
       <p>Discover our collection of Blooket hacks designed to give you an edge in gameplay.</p>
       <p>From point boosters to unlockable content, our hacks are created to keep your experience exciting and rewarding.</p>
       <p>We prioritize safety and reliability to ensure you can enjoy your hacks without worries.</p>
     </section>
-
     <section id="gorilla" class="page">
       <h1>Gorilla Tag Mods</h1>
       <p>Enhance your Gorilla Tag gameplay with our custom mods.</p>
@@ -161,6 +127,9 @@
   <!-- Background Audio -->
   <audio id="bgAudio" src="Vem Vem.mp3" preload="auto" loop></audio>
 
+  <!-- Overlay: user must click to enable sound -->
+  <div id="enableSoundOverlay">Click anywhere to enable background music</div>
+
   <script>
     const pages = ['home', 'about', 'blooket', 'gorilla'];
     let currentPageIndex = 0;
@@ -169,40 +138,31 @@
     const nextBtn = document.getElementById('nextBtn');
     const pageName = document.getElementById('pageName');
     const audio = document.getElementById('bgAudio');
+    const overlay = document.getElementById('enableSoundOverlay');
 
     function showPage(index) {
       if (index < 0) index = pages.length - 1;
       if (index >= pages.length) index = 0;
       currentPageIndex = index;
-
       pages.forEach((id, i) => {
         const el = document.getElementById(id);
         el.classList.toggle('active', i === index);
       });
-
       const name = pages[index];
       pageName.textContent = name.charAt(0).toUpperCase() + name.slice(1);
     }
 
-    prevBtn.addEventListener('click', () => {
-      showPage(currentPageIndex - 1);
-    });
-
-    nextBtn.addEventListener('click', () => {
-      showPage(currentPageIndex + 1);
-    });
-
+    prevBtn.addEventListener('click', () => showPage(currentPageIndex - 1));
+    nextBtn.addEventListener('click', () => showPage(currentPageIndex + 1));
     showPage(currentPageIndex);
 
-    // Autoplay audio after user interaction
-    const allowAudio = () => {
-      audio.volume = 0.1;
+    overlay.addEventListener('click', () => {
+      audio.volume = 0.1; // Quiet background
       audio.play().catch(() => {
-        console.warn("Browser blocked autoplay until user interacts.");
+        console.warn('Autoplay blocked; audio will start on user interaction.');
       });
-      document.removeEventListener('click', allowAudio);
-    };
-    document.addEventListener('click', allowAudio);
+      overlay.style.display = 'none';
+    });
   </script>
 </body>
 </html>
