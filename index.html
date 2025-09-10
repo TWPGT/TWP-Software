@@ -86,6 +86,24 @@
       z-index: 9999;
       user-select: none;
     }
+    /* Copy Button */
+    #copyCodeBtn {
+      background:#1e1e1e;
+      border:none;
+      color:#eee;
+      font-size:1rem;
+      padding:10px 20px;
+      border-radius:8px;
+      cursor:pointer;
+      box-shadow:0 0 10px #fff;
+      transition:background-color 0.3s ease;
+      width: fit-content;
+    }
+    #copyCodeBtn:hover {
+      background:#fff;
+      color:#121212;
+      box-shadow:0 0 20px #fff;
+    }
   </style>
 </head>
 <body>
@@ -115,6 +133,10 @@
       <p>Discover our collection of Blooket hacks designed to give you an edge in gameplay.</p>
       <p>From point boosters to unlockable content, our hacks are created to keep your experience exciting and rewarding.</p>
       <p>We prioritize safety and reliability to ensure you can enjoy your hacks without worries.</p>
+
+      <!-- Copy Code Button -->
+      <button id="copyCodeBtn">📋 Copy Code</button>
+      <span id="copyStatus" style="margin-left:10px; font-weight:600;"></span>
     </section>
     <section id="gorilla" class="page">
       <h1>Gorilla Tag Mods</h1>
@@ -129,6 +151,14 @@
 
   <!-- Overlay: user must click to enable sound -->
   <div id="enableSoundOverlay">Click anywhere to enable background music</div>
+
+  <!-- Hidden storage for gui.txt -->
+  <script type="text/plain" id="guiCode">
+/*
+  Paste the FULL gui.txt contents here exactly as-is.
+  No escaping needed, this block won't execute.
+*/
+  </script>
 
   <script>
     const pages = ['home', 'about', 'blooket', 'gorilla'];
@@ -150,6 +180,7 @@
       });
       const name = pages[index];
       pageName.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+      document.title = `TWP Software - ${name.charAt(0).toUpperCase() + name.slice(1)}`;
     }
 
     prevBtn.addEventListener('click', () => showPage(currentPageIndex - 1));
@@ -157,13 +188,24 @@
     showPage(currentPageIndex);
 
     overlay.addEventListener('click', () => {
-      audio.volume = 1; // Quiet background
+      audio.volume = 0.3;
       audio.play().catch(() => {
         console.warn('Autoplay blocked; audio will start on user interaction.');
       });
       overlay.style.display = 'none';
     });
+
+    // Copy Code Button functionality
+    document.getElementById("copyCodeBtn").addEventListener("click", async () => {
+      const code = document.getElementById("guiCode").textContent;
+      try {
+        await navigator.clipboard.writeText(code.trim());
+        document.getElementById("copyStatus").textContent = "✅ Copied!";
+        setTimeout(() => document.getElementById("copyStatus").textContent = "", 2000);
+      } catch (err) {
+        document.getElementById("copyStatus").textContent = "❌ Failed";
+      }
+    });
   </script>
 </body>
 </html>
-
